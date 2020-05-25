@@ -1,5 +1,5 @@
 import React from 'react';
-import { Item, Header, Label, Icon } from 'semantic-ui-react';
+import { Item, Label, Icon } from 'semantic-ui-react';
 import { IPost } from '../models/posts';
 import { Link } from 'react-router-dom';
 import Timestamp from 'react-timestamp';
@@ -14,7 +14,7 @@ const PostListItem: React.FC<PostListItemProps> = ({ post }) => (
   <Item>
     <Item.Content>
       <Item.Header as={Link} to={`/${post.category}/${post.id}`}>
-        <Header>{post.title || 'Untitled post'}</Header>
+        {post.title || 'Untitled post'}
       </Item.Header>
       <Item.Description>
         {post.body.length > POST_PREVIEW_LIMIT

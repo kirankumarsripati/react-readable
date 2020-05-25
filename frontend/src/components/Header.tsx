@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
           <Menu.Item
             key={category.path}
             as={NavLink}
-            to={category.path}>
+            to={'/' + category.path}>
             {category.name}
           </Menu.Item>
         ))}
