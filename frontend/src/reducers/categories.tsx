@@ -1,5 +1,5 @@
-import { GET_CATEGORIES } from "../actions/categories";
-import { ICategory } from "../models/category";
+import { GET_CATEGORIES } from '../actions/categories';
+import { ICategory } from '../models/category';
 
 const initialState: ICategory[] = [];
 

@@ -18,3 +18,9 @@ export const getCategories = async () => {
   const result = await axios.get(`${API_URL}/categories`, { headers })
   return result.data;
 }
+
+export const getPosts = async (category = '') => {
+  const url = category ? `/${category}/posts` : '/posts';
+  const result = await axios.get(`${API_URL}${url}`, { headers })
+  return result.data;
+}

@@ -10,14 +10,12 @@ import Header from './Header';
 import { Container } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { getCategories } from '../actions/categories';
-import { ICategory } from '../models/category';
 
 interface AppProps {
-  categories: ICategory[],
   dispatch: Function;
 }
 
-const App: React.FC<AppProps> = ({ categories, dispatch }) => {
+const App: React.FC<AppProps> = ({ dispatch }) => {
   React.useEffect(() => {
     dispatch(getCategories())
   }, [dispatch])
