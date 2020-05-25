@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const API_URL = 'http://localhost:3001';
 
 let token = localStorage.token;
@@ -12,6 +14,7 @@ const headers = {
   'Content-Type': 'application/json'
 }
 
-export const getCategories = () =>
-  fetch(`${API_URL}/categories`, { headers })
-    .then(response => response.json())
+export const getCategories = async () => {
+  const result = await axios.get(`${API_URL}/categories`, { headers })
+  return result.data;
+}
