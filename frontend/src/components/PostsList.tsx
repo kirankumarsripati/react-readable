@@ -4,6 +4,9 @@ import { IPost } from '../models/posts';
 import { connect } from 'react-redux';
 import PostListItem from './PostListItem';
 import { getPosts } from '../actions/posts';
+import sortBy from '../services/sortBy'
+import { votePost, deletePost } from '../actions/post';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 interface PostsListProps {
   category?: string;
@@ -11,10 +14,23 @@ interface PostsListProps {
   dispatch: Function;
 }
 
-const PostsList: React.FC<PostsListProps> = ({ category, posts, dispatch }) => {
+// https://stackoverflow.com/questions/56979012/issue-with-types-when-using-withrouter-and-typescript
+const PostsList: React.FC<PostsListProps & RouteComponentProps> = ({ category, posts, dispatch, history }) => {
   React.useEffect(() => {
     dispatch(getPosts(category))
   }, [dispatch, category]);
+
+  const onVoteClick = (postId, delta) => {
+    dispatch(votePost({ postId, delta }));
+  };
+
+  const onEditClick = (post) => {
+    history.push(`/${post.category}/${post.id}/edit`);
+  };
+
+  const onDeleteClick = (postId) => {
+    dispatch(deletePost(postId));
+  };
 
   return (
     <Segment>
@@ -23,6 +39,9 @@ const PostsList: React.FC<PostsListProps> = ({ category, posts, dispatch }) => {
           <PostListItem
             key={post.id}
             post={post}
+            voteAction={onVoteClick}
+            editAction={onEditClick}
+            deleteAction={onDeleteClick}
           />
         ))}
         {posts.length === 0 && <h3>There are no posts yet.</h3>}
@@ -32,5 +51,5 @@ const PostsList: React.FC<PostsListProps> = ({ category, posts, dispatch }) => {
 }
 
 export default connect((state: any) => ({
-  posts: state.posts
-}))(PostsList)
+  posts: sortBy(state.posts, state.sortOrder)
+}))(withRouter(PostsList))

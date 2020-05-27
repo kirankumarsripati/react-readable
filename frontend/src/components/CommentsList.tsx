@@ -1,5 +1,5 @@
 import React from 'react';
-import { Comment, Icon } from 'semantic-ui-react';
+import { Comment, Icon, Button } from 'semantic-ui-react';
 import Moment from 'react-moment';
 import { IComment } from '../models/comment';
 
@@ -22,10 +22,8 @@ const CommentsList: React.FC<CommentsListProps> = ({ comments = [], voteAction, 
             <Comment.Author as='span'>{comment.author}</Comment.Author>
             <Comment.Metadata>
               <Moment fromNow>{comment.timestamp}</Moment>
-              | <Icon name='thumbs down outline'
-                onClick={() => voteAction(comment.id, -1)} />
-              {comment.voteScore} <Icon name='thumbs up outline'
-                onClick={() => voteAction(comment.id, 1)} />
+              | <Button basic size='small' icon='thumbs down outline' onClick={() => voteAction(comment.id, -1)} />
+              {comment.voteScore} <Button basic  size='small' icon='thumbs up outline' onClick={() =>  voteAction(comment.id, 1)} />
             </Comment.Metadata>
             <Comment.Text>{comment.body}</Comment.Text>
             <Comment.Actions>

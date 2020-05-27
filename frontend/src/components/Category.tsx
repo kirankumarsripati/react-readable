@@ -1,6 +1,7 @@
 import React from 'react'
 import { Segment, Header } from 'semantic-ui-react';
 import PostsList from './PostsList';
+import SortControls from './SortControls';
 
 const Category = ({ match }) => {
   const { category } = match.params;
@@ -8,6 +9,7 @@ const Category = ({ match }) => {
     <Segment.Group>
       <Segment>
         <Header>{category}</Header>
+        <SortControls />
       </Segment>
       <PostsList category={category} />
     </Segment.Group>

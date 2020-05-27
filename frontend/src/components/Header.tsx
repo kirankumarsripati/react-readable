@@ -27,6 +27,13 @@ const Header: React.FC<HeaderProps> = ({ categories }) => {
             {category.name}
           </Menu.Item>
         ))}
+        <Menu.Menu position='right'>
+          <Menu.Item>
+            <NavLink to='/post/new'>
+              <Icon name='plus' />New Post
+            </NavLink>
+          </Menu.Item>
+        </Menu.Menu>
       </Container>
     </Menu>
   )

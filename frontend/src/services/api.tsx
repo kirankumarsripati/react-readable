@@ -31,6 +31,41 @@ export const getPost = async (id: string) => {
   return result.data;
 }
 
+export const addPost = async ({
+  id = uuid(),
+  timestamp = Date.now(),
+  title,
+  body,
+  author = "Kirankumar",
+  category
+}) => {
+  const result = await axios.post(`${API_URL}/posts`, {
+    id,
+    timestamp,
+    title,
+    body,
+    author,
+    category
+  }, { headers});
+  return result.data;
+}
+
+export const updatePost = async ({ postId, title, body }) => {
+  const result = await axios.put(`${API_URL}/posts/${postId}`, { title, body }, { headers });
+  return result.data;
+}
+
+export const deletePost = async (postId) => {
+  const result = await axios.delete(`${API_URL}/posts/${postId}`, { headers })
+  return result.data;
+}
+
+export const votePost = async ({ postId, delta }) => {
+  let option = +delta > 0 ? "upVote" : "downVote";
+  const result = await axios.post(`${API_URL}/posts/${postId}`, { option }, { headers })
+  return result.data;
+};
+
 export const getComments = async (id: string) => {
   const result = await axios.get(`${API_URL}/posts/${id}/comments`, { headers })
   return result.data;

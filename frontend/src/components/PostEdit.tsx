@@ -1,5 +1,51 @@
 import React from 'react'
+import { Segment, Header } from 'semantic-ui-react'
+import PostForm from './PostForm'
+import { connect } from 'react-redux'
+import { IPost } from '../models/posts'
+import { getPost, updatePost } from '../actions/post'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 
-const PostEdit = () => <h1>PostEdit</h1>
+interface PostEditProps {
+  post: IPost;
+  match: any;
+  dispatch: Function;
+  history: Function;
+}
 
-export default PostEdit
+const PostEdit: React.FC<PostEditProps & RouteComponentProps> = ({ post, match, dispatch, history }) => {
+
+  React.useEffect(() => {
+    dispatch(getPost(match.params.postId))
+  }, [dispatch, match])
+
+
+  const onPostSubmit = ({ title, body }) => {
+    const { postId } = match.params;
+
+    dispatch(updatePost({
+      title,
+      body,
+      postId,
+    }));
+
+    history.push('/')
+  }
+
+  return (
+    <Segment.Group>
+      <Segment>
+        <Header>Edit Post</Header>
+      </Segment>
+      <Segment>
+        <PostForm
+          {...post}
+          onSubmit={onPostSubmit} />
+      </Segment>
+    </Segment.Group>
+  )
+}
+
+export default connect((state: any) => ({
+  post: state.post
+}))(withRouter(PostEdit));

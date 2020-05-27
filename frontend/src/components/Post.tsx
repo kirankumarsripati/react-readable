@@ -1,14 +1,16 @@
 import React from 'react'
-import { Segment, Header, Item, Label, Icon, Modal } from 'semantic-ui-react'
-import { IPost } from '../models/posts'
-import { getPost } from '../actions/post';
-import { getComments } from '../actions/comments';
+import { Segment, Header, Item, Label, Icon, Modal, Button } from 'semantic-ui-react'
 import Timestamp from 'react-timestamp';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import { IPost } from '../models/posts'
+import { getPost } from '../actions/post';
+import { getComments, voteComment, deleteComment, updateComment, addComment } from '../actions/comments';
+import { deletePost } from '../actions/post'
 import CommentForm from './CommentForm';
 import CommentsList from './CommentsList';
 import { IComment } from '../models/comment';
-import { voteComment, deleteComment, updateComment, addComment } from '../actions/comments';
 
 interface PostProps {
   post: IPost;
@@ -27,6 +29,10 @@ const Post = ({ match, post, comments, dispatch }) => {
     dispatch(getPost(match.params.postId))
     dispatch(getComments(match.params.postId))
   }, [dispatch, match]);
+
+  const onDeletePost = () => {
+    dispatch(deletePost(post.id))
+  }
 
   const onEditComment =(comment) => {
     setModelOpen(true)
@@ -76,15 +82,21 @@ const Post = ({ match, post, comments, dispatch }) => {
           <Item.Group>
             <Item>
               <Item.Content>
+                <Button.Group floated="right" compact size="mini">
+                    <Button content="Edit" icon="edit" basic color='green'
+                      as={Link} to={`/${post.category}/${post.id}/edit`} />
+                    <Button content="Delete" icon="delete" basic color='red'
+                      onClick={onDeletePost} />
+                  </Button.Group>
                 <Item.Header>
                   {post.title}
                 </Item.Header>
                 <Item.Description>{post.body}</Item.Description>
                 <Item.Meta>
                   <Label.Group>
-                    <Icon name='thumbs down outline' />
+                    <Button basic size='small' icon='thumbs down outline' />
                     {post.voteScore + ' '}
-                    <Icon name='thumbs up outline' />
+                    <Button basic size='small' icon='thumbs up outline' />
                     <Label tag>{post.category}</Label>
                     <Label>
                       <Icon name='user' /> {post.author}
