@@ -1,8 +1,9 @@
 import React from 'react'
 import { Segment, Header, Item, Label, Icon, Modal, Button } from 'semantic-ui-react'
+// @ts-ignore
 import Timestamp from 'react-timestamp';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { IPost } from '../models/posts'
 import { getPost } from '../actions/post';
@@ -14,15 +15,19 @@ import { IComment } from '../models/comment';
 
 interface PostProps {
   post: IPost;
-  comments: IComment;
+  comments: IComment[];
   dispatch: Function;
 }
 
-const Post = ({ match, post, comments, dispatch }) => {
+interface RouteParams {
+  postId: string;
+}
+
+const Post: React.FC<PostProps & RouteComponentProps<RouteParams>> = ({ match, post, comments, dispatch }) => {
   const [modelOpen, setModelOpen] = React.useState(false)
   const [commentToEdit, setCommentToEdit] = React.useState<{
-    id: number,
-    body: string,
+    id: string,
+    body: string
   } | null>(null)
 
   React.useEffect(() => {
@@ -34,36 +39,30 @@ const Post = ({ match, post, comments, dispatch }) => {
     dispatch(deletePost(post.id))
   }
 
-  const onEditComment =(comment) => {
+  const onEditComment =(id: string, body: string) => {
     setModelOpen(true)
-    setCommentToEdit(comment)
+    setCommentToEdit({ id, body })
   }
 
-  const onVoteComment = (commentId, delta) => {
-    dispatch(voteComment({ commentId, delta }));
+  const onVoteComment = (id: string, delta: number) => {
+    dispatch(voteComment(id, delta));
   };
 
-  const onRemoveComment = (commentId) => {
-    dispatch(deleteComment(commentId));
+  const onRemoveComment = (id: string) => {
+    dispatch(deleteComment(id));
   }
 
-  const onCommentUpdate = ({ body }) => {
+  const onCommentUpdate = ({ body }: IComment) => {
     if (!body) {
       return;
     }
-    dispatch(updateComment({
-      commentId: commentToEdit && commentToEdit.id,
-      body
-    }))
+    dispatch(updateComment(commentToEdit && commentToEdit.id, body))
     closeCommentModal();
   };
 
-  const onCommentSubmit = (commentData) => {
+  const onCommentSubmit = (commentData: IComment) => {
     commentData.body &&
-      dispatch(addComment({
-        postId: match.params.postId,
-        ...commentData,
-      }))
+      dispatch(addComment(match.params.postId, commentData.author, commentData.body))
   }
 
   const closeCommentModal = () => {
@@ -133,7 +132,8 @@ const Post = ({ match, post, comments, dispatch }) => {
         <Modal.Header>Edit comment</Modal.Header>
         <Modal.Content>
           <CommentForm
-            {...commentToEdit}
+            id={commentToEdit?.id}
+            body={commentToEdit?.body}
             onSubmit={onCommentUpdate}
           />
         </Modal.Content>
@@ -143,6 +143,6 @@ const Post = ({ match, post, comments, dispatch }) => {
 }
 
 export default connect((state: any) => ({
-  post: state.post,
-  comments: state.comments
+  post: state.post as IPost,
+  comments: state.comments as IComment[]
 }))(Post);

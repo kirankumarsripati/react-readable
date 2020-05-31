@@ -3,6 +3,7 @@ import { Segment, Header } from 'semantic-ui-react'
 import { addPost } from '../actions/post'
 import PostForm from './PostForm';
 import { connect } from 'react-redux';
+import { IPost } from '../models/posts';
 
 interface PostAddProps {
   history: any;
@@ -10,8 +11,8 @@ interface PostAddProps {
 }
 
 const PostAdd: React.FC<PostAddProps> = ({ history, dispatch }) => {
-  const onPostSubmit = ({ author, title, category, body }) => {
-    dispatch(addPost({ author, title, category, body }));
+  const onPostSubmit = ({ author, title, category, body }: IPost) => {
+    dispatch(addPost(author, title, category, body));
     history.push("/");
   };
 

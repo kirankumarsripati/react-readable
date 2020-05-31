@@ -6,36 +6,36 @@ export const ADD_POST = 'ADD_POST';
 export const UPDATE_POST = 'UPDATE_POST';
 export const DELETE_POST = 'DELETE_POST';
 
-export const getPost = (id: string) => (dispatch) =>
+export const getPost = (id: string) => (dispatch: Function) =>
   API.getPost(id)
     .then((post: IPost) => dispatch({
       type: GET_POST,
       post,
     }));
 
-export const addPost = ({ author, title, category, body }) => (dispatch) =>
-  API.addPost({ author, title, category, body})
+export const addPost = (author: string, title: string, category: string, body: string) => (dispatch: Function) =>
+  API.addPost(author, title, category, body)
     .then(post => dispatch({
       type: ADD_POST,
       post
     }));
 
-export const updatePost = ({ postId, title, body }) => (dispatch) =>
-  API.updatePost({ postId, title, body })
+export const updatePost = (id: string, title: string, body: string) => (dispatch: Function) =>
+  API.updatePost(id, title, body)
     .then(post => dispatch({
       type: UPDATE_POST,
       post
     }))
 
-export const votePost = ({ postId, delta }) => (dispatch) =>
-  API.votePost({ postId, delta })
+export const votePost = (id: string, delta: number) => (dispatch: Function) =>
+  API.votePost(id, delta)
     .then(post => dispatch({
       type: UPDATE_POST,
       post
     }))
 
-export const deletePost = (postId) => (dispatch) =>
-  API.deletePost(postId).then(post => dispatch({
+export const deletePost = (id: string) => (dispatch: Function) =>
+  API.deletePost(id).then(post => dispatch({
     type: DELETE_POST,
     post
   }))

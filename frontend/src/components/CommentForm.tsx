@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Button } from 'semantic-ui-react';
 
 interface CommentFormProps {
-  id?: number;
+  id?: string;
   author?: string;
   body?: string;
   onSubmit: Function;
@@ -12,7 +12,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ id, author, body, onSubmit })
   const [inputAuthor, setInputAuthor] = React.useState(author);
   const [inputBody, setInputBody] = React.useState(body);
 
-  const onSubmitForm = event => {
+  const onSubmitForm = (event: React.FormEvent) => {
     event.preventDefault();
     onSubmit({ author: inputAuthor, body: inputBody })
     setInputBody('')

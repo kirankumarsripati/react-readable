@@ -3,7 +3,7 @@ import { IComment } from "../models/comment";
 
 const initialState: IComment[] = [];
 
-export default (state = initialState, action) => {
+export default (state = initialState, action: any) => {
   switch (action.type) {
     case GET_COMMENTS:
       return action.comments;

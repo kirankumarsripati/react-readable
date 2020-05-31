@@ -20,14 +20,10 @@ const PostEdit: React.FC<PostEditProps & RouteComponentProps> = ({ post, match, 
   }, [dispatch, match])
 
 
-  const onPostSubmit = ({ title, body }) => {
+  const onPostSubmit = (title: string, body: string) => {
     const { postId } = match.params;
 
-    dispatch(updatePost({
-      title,
-      body,
-      postId,
-    }));
+    dispatch(updatePost(postId, title, body));
 
     history.push('/')
   }

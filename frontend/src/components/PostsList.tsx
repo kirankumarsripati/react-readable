@@ -20,16 +20,16 @@ const PostsList: React.FC<PostsListProps & RouteComponentProps> = ({ category, p
     dispatch(getPosts(category))
   }, [dispatch, category]);
 
-  const onVoteClick = (postId, delta) => {
-    dispatch(votePost({ postId, delta }));
+  const onVoteClick = (id: string, delta: number) => {
+    dispatch(votePost(id, delta));
   };
 
-  const onEditClick = (post) => {
+  const onEditClick = (post: IPost) => {
     history.push(`/${post.category}/${post.id}/edit`);
   };
 
-  const onDeleteClick = (postId) => {
-    dispatch(deletePost(postId));
+  const onDeleteClick = (id: string) => {
+    dispatch(deletePost(id));
   };
 
   return (

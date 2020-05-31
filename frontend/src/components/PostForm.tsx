@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Button, Select } from 'semantic-ui-react'
+import { Form, Button, Select, DropdownProps } from 'semantic-ui-react'
 import { ICategory } from '../models/category';
 import { connect } from 'react-redux';
 
@@ -17,7 +17,7 @@ export class PostForm extends Component<PostFormProps> {
     categories: []
   }
 
-  onSubmit = event => {
+  onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     const { category = this.getDefaultCategory(), author, body, title } = {
@@ -35,13 +35,13 @@ export class PostForm extends Component<PostFormProps> {
     return '';
   }
 
-  onChange = field => (event) => {
+  onChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = event.target.value;
     this.setState({ [field]: value });
   };
 
-  onChangeSelect = field => (event, data) => {
-    const value = event.target.value || data.value;
+  onChangeSelect = (field: string) => (event: React.SyntheticEvent<HTMLElement, Event>, data: DropdownProps) => {
+    const value = data.value;
     this.setState({ [field]: value });
   };
 

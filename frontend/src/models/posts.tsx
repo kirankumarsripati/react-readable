@@ -8,4 +8,5 @@ export interface IPost {
   voteScore: number;
   deleted: boolean;
   commentCount: number;
+  delta?: string;
 }

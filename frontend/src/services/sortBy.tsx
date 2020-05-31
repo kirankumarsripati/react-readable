@@ -1,4 +1,4 @@
-export default (list, sortBy) => {
+export default (list: any, sortBy: string) => {
   if (!sortBy) {
     return list;
   }

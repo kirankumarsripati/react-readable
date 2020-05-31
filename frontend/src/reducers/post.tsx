@@ -3,7 +3,7 @@ import { IPost } from '../models/posts';
 
 const initialState: IPost | {} = {};
 
-export default (state = initialState, action) => {
+export default (state = initialState, action: any) => {
   switch (action.type) {
     case GET_POST:
       return action.post;

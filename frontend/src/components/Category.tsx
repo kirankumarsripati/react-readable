@@ -2,9 +2,15 @@ import React from 'react'
 import { Segment, Header } from 'semantic-ui-react';
 import PostsList from './PostsList';
 import SortControls from './SortControls';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-const Category = ({ match }) => {
+interface RouteParams {
+  category: string;
+}
+
+const Category: React.FC<RouteComponentProps<RouteParams>> = ({ match }) => {
   const { category } = match.params;
+
   return (
     <Segment.Group>
       <Segment>
@@ -16,4 +22,4 @@ const Category = ({ match }) => {
   )
 }
 
-export default Category
+export default withRouter(Category)

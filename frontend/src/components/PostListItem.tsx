@@ -2,6 +2,7 @@ import React from 'react';
 import { Item, Label, Icon, Button } from 'semantic-ui-react';
 import { IPost } from '../models/posts';
 import { Link } from 'react-router-dom';
+// @ts-ignore
 import Timestamp from 'react-timestamp';
 
 interface PostListItemProps {
