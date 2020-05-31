@@ -27,9 +27,9 @@ const PostListItem: React.FC<PostListItemProps> = ({ post, editAction, deleteAct
         {post.title || 'Untitled post'}
       </Item.Header>
       <Item.Description>
-        {post.body.length > POST_PREVIEW_LIMIT
+        {post.body && (post.body.length > POST_PREVIEW_LIMIT
           ? `${post.body.substr(0, POST_PREVIEW_LIMIT)}...`
-          : post.body}
+          : post.body)}
       </Item.Description>
       <Item.Meta>
         <Label.Group>

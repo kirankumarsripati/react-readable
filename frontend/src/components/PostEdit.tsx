@@ -20,7 +20,7 @@ const PostEdit: React.FC<PostEditProps & RouteComponentProps> = ({ post, match, 
   }, [dispatch, match])
 
 
-  const onPostSubmit = (title: string, body: string) => {
+  const onPostSubmit = ({ title, body }: Partial<IPost>) => {
     const { postId:id } = match.params;
 
     dispatch(updatePost({ id, title, body }));
