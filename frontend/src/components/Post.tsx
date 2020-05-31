@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { IPost } from '../models/posts'
-import { getPost } from '../actions/post';
+import { getPost, votePost } from '../actions/post';
 import { getComments, voteComment, deleteComment, updateComment, addComment } from '../actions/comments';
 import { deletePost } from '../actions/post'
 import CommentForm from './CommentForm';
@@ -27,7 +27,8 @@ const Post: React.FC<PostProps & RouteComponentProps<RouteParams>> = ({ match, p
   const [modelOpen, setModelOpen] = React.useState(false)
   const [commentToEdit, setCommentToEdit] = React.useState<{
     id: string,
-    body: string
+    body: string,
+    author: string,
   } | null>(null)
 
   React.useEffect(() => {
@@ -39,10 +40,14 @@ const Post: React.FC<PostProps & RouteComponentProps<RouteParams>> = ({ match, p
     dispatch(deletePost(post.id))
   }
 
-  const onEditComment =(id: string, body: string) => {
+  const onEditComment =({ id, author, body }: IComment) => {
+    setCommentToEdit({ id, author, body })
     setModelOpen(true)
-    setCommentToEdit({ id, body })
   }
+
+  const onVoteClick = (id: string, delta: number) => {
+    dispatch(votePost(id, delta));
+  };
 
   const onVoteComment = (id: string, delta: number) => {
     dispatch(voteComment(id, delta));
@@ -99,9 +104,11 @@ const Post: React.FC<PostProps & RouteComponentProps<RouteParams>> = ({ match, p
                 <Item.Description>{post.body}</Item.Description>
                 <Item.Meta>
                   <Label.Group>
-                    <Button basic size='small' icon='thumbs down outline' />
+                    <Button basic size='small' icon='thumbs down outline'
+                      onClick={() => onVoteClick(post.id, 1)} />
                     {post.voteScore + ' '}
-                    <Button basic size='small' icon='thumbs up outline' />
+                    <Button basic size='small' icon='thumbs up outline'
+                      onClick={() => onVoteClick(post.id, -1)} />
                     <Label tag>{post.category}</Label>
                     <Label>
                       <Icon name='user' /> {post.author}
@@ -137,11 +144,13 @@ const Post: React.FC<PostProps & RouteComponentProps<RouteParams>> = ({ match, p
         onClose={closeCommentModal}>
         <Modal.Header>Edit comment</Modal.Header>
         <Modal.Content>
+          { commentToEdit &&
           <CommentForm
-            id={commentToEdit?.id}
-            body={commentToEdit?.body}
+            id={commentToEdit.id}
+            body={commentToEdit.body}
+            author={commentToEdit.author}
             onSubmit={onCommentUpdate}
-          />
+          />}
         </Modal.Content>
       </Modal>
     </>

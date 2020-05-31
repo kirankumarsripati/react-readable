@@ -43,7 +43,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ id, author, body, onSubmit })
           }}
         />
       </Form.Field>
-      <Button>Send</Button>
+      <Button>Save</Button>
     </Form>
   )
 }
