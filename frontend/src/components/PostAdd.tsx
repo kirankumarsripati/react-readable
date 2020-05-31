@@ -11,8 +11,8 @@ interface PostAddProps {
 }
 
 const PostAdd: React.FC<PostAddProps> = ({ history, dispatch }) => {
-  const onPostSubmit = ({ author, title, category, body }: IPost) => {
-    dispatch(addPost(author, title, category, body));
+  const onPostSubmit = ({ author, title, category, body }: Partial<IPost>) => {
+    dispatch(addPost({ author, title, category, body }));
     history.push("/");
   };
 

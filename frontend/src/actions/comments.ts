@@ -1,4 +1,5 @@
 import * as API from '../services/api'
+import { IComment } from '../models/comment'
 
 export const GET_COMMENTS = 'GET_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
@@ -13,15 +14,15 @@ export const getComments = (postId: string) => (dispatch: Function) =>
         postId
       }))
 
-export const addComment = (postId: string, author: string = '', body: string = '') => (dispatch: Function) =>
-  API.addComment(postId, author, body)
+export const addComment = ({ parentId, author, body }: Partial<IComment>) => (dispatch: Function) =>
+  API.addComment({ parentId, author, body })
     .then(comment => dispatch({
       type: ADD_COMMENT,
       comment,
-      postId
+      parentId
     }))
 
-export const updateComment = (id: string | null, body: string) => (dispatch: Function) =>
+export const updateComment = (id: string, body: string) => (dispatch: Function) =>
   API.updateComment(id, body)
     .then(comment => dispatch({
         type: UPDATE_COMMENT,

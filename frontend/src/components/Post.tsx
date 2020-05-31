@@ -56,13 +56,19 @@ const Post: React.FC<PostProps & RouteComponentProps<RouteParams>> = ({ match, p
     if (!body) {
       return;
     }
-    dispatch(updateComment(commentToEdit && commentToEdit.id, body))
+    if (commentToEdit && commentToEdit.id) {
+      dispatch(updateComment(commentToEdit.id, body))
+    }
     closeCommentModal();
   };
 
   const onCommentSubmit = (commentData: IComment) => {
     commentData.body &&
-      dispatch(addComment(match.params.postId, commentData.author, commentData.body))
+      dispatch(addComment({
+        parentId: match.params.postId,
+        author: commentData.author,
+        body: commentData.body
+      }))
   }
 
   const closeCommentModal = () => {

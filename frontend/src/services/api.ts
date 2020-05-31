@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { v1 as uuid } from 'uuid';
+import { IPost } from '../models/posts';
+import { IComment } from '../models/comment';
 
 const API_URL = 'http://localhost:3001';
 
@@ -31,7 +33,7 @@ export const getPost = async (id: string) => {
   return result.data;
 }
 
-export const addPost = async (title: string, body: string, author = "Kirankumar", category: string) => {
+export const addPost = async ({ title, body, author, category }: Partial<IPost>) => {
   const id = uuid();
   const timestamp = Date.now();
   const result = await axios.post(`${API_URL}/posts`, {
@@ -45,7 +47,7 @@ export const addPost = async (title: string, body: string, author = "Kirankumar"
   return result.data;
 }
 
-export const updatePost = async (id: string, title: string, body: string) => {
+export const updatePost = async ({ id, title, body }: Partial<IPost>) => {
   const result = await axios.put(`${API_URL}/posts/${id}`, { title, body }, { headers });
   return result.data;
 }
@@ -66,7 +68,7 @@ export const getComments = async (id: string) => {
   return result.data;
 }
 
-export const addComment = async (parentId: string, author: string, body: string) => {
+export const addComment = async ({ parentId, author, body }: Partial<IComment>) => {
   const result = await axios.post(`${API_URL}/comments`, {
     id: uuid(),
     timestamp: Date.now(),
@@ -77,7 +79,7 @@ export const addComment = async (parentId: string, author: string, body: string)
   return result.data;
 }
 
-export const updateComment = async (id: string | null, body: string) => {
+export const updateComment = async (id: string, body: string) => {
   const result = await axios.put(`${API_URL}/comments/${id}`, {
     timestamp: Date.now(),
     body

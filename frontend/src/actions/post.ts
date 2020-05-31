@@ -13,15 +13,15 @@ export const getPost = (id: string) => (dispatch: Function) =>
       post,
     }));
 
-export const addPost = (author: string, title: string, category: string, body: string) => (dispatch: Function) =>
-  API.addPost(author, title, category, body)
+export const addPost = ({ author, title, category, body }: Partial<IPost>) => (dispatch: Function) =>
+  API.addPost({ author, title, category, body })
     .then(post => dispatch({
       type: ADD_POST,
       post
     }));
 
-export const updatePost = (id: string, title: string, body: string) => (dispatch: Function) =>
-  API.updatePost(id, title, body)
+export const updatePost = ({ id, title, body }: Partial<IPost>) => (dispatch: Function) =>
+  API.updatePost({ id, title, body })
     .then(post => dispatch({
       type: UPDATE_POST,
       post
