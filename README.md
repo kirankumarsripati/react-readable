@@ -10,11 +10,12 @@ To get started developing right away:
 
 * Install and start the API server
     - `cd api-server`
-    - `npm install`
+    - `yarn`
     - `node server`
 * In another terminal window, use go to front-end
     - `cd frontend`
-    - `npm start`
+    - `yarn`
+    - `yarn start`
 
 ## API Server
 
